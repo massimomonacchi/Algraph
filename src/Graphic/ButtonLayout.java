@@ -28,8 +28,7 @@ import javafx.util.Pair;
 import java.awt.*;
 import java.io.*;
 import java.util.*;
-import javax.swing.JFileChooser;
-
+import javax.swing.*;
 
 
 public class ButtonLayout {
@@ -615,13 +614,13 @@ public class ButtonLayout {
                     "\n" +
                     " Il pulsante \"Random\" crea un grafo casuale, facendo scegliere all'utente esclusivamente il numero di nodi e il massimo peso che ogni arco può avere\n" +
                     "\n" +
-                    " Il pulsante \"Dijkstra.Dijkstra\" esegue l'algoritmo di Dijkstra.Dijkstra partendo da un determinato nodo\n" +
+                    " Il pulsante \"Dijkstra\" esegue l'algoritmo di Dijkstra partendo da un determinato nodo\n" +
                     "\n" +
-                    " Il pulsante \"Reset\" resetta il grafo se in precedenza è stato applicato Dijkstra.Dijkstra in modo da poter riapplicare nuovamente l'algoritmo\n" +
+                    " Il pulsante \"Reset\" resetta il grafo se in precedenza è stato applicato Dijkstra in modo da poter riapplicare nuovamente l'algoritmo\n" +
                     "\n" +
                     " Il pulsante \"Help\" apre questa finestra");
             secondLabel.setFont(Font.font("Arial", FontWeight.NORMAL, 15));
-            Pane secondaryLayout = new Pane();
+            /*Pane secondaryLayout = new Pane();
             secondaryLayout.getChildren().add(secondLabel);
 
             Scene secondScene = new Scene(secondaryLayout, 800 , 600);
@@ -636,8 +635,21 @@ public class ButtonLayout {
             newWindow.setX(primaryStage.getX() + 200);
             newWindow.setY(primaryStage.getY() + 100);
 
-            newWindow.show();
+            newWindow.show();*/
+            JFrame window2 = new JFrame("Help");
+            final JTextArea textArea = new JTextArea(10, 100);
+            JScrollPane scroll = new JScrollPane(textArea,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+            textArea.setText(secondLabel.getText());
+            textArea.setLineWrap(true);
+            textArea.setWrapStyleWord(true);
+            textArea.setEditable(false);
+            window2.add(scroll);
+            window2.setSize(1100, 500);
+            window2.setVisible(true);
+            window2.setLocationRelativeTo(null);
+            window2.toFront();
         });
+
     }
 
     public Button getButtonHelp(){ return Help;}
