@@ -26,7 +26,6 @@ public class Dijkstra {
     double dim = (screenSize.getHeight() - (screenSize.getHeight() / 8) - y) / 16;
 
     LinkedList<Edge> E = new LinkedList<>();
-
     Label lbl2 = new Label("Priority\nQueue");
     Rectangle rt2 = new Rectangle(80,dim);
 
@@ -98,6 +97,7 @@ public class Dijkstra {
 
             if (secondo) {
                 if (!q.getPriorityQueue().isEmpty()) {
+                    v1 = null;
                     v1 = q.deleteMin();
                     v1.getDijkstra().setFill(Color.WHITE);
                     v1.setColor(Color.ORANGE);
@@ -152,7 +152,8 @@ public class Dijkstra {
                         v1.getCircle().setFill(Color.GREEN);
                         v1.setColor(Color.GREEN);
                     }
-                    p.getChildren().removeAll(Ac.get(v1.getName()).getCircle(), Ac.get(v1.getName()).getTextT());
+                    p.getChildren().remove(Ac.get(v1.getName()).getCircle());
+                    p.getChildren().remove(Ac.get(v1.getName()).getDijkstra());
                 }
                 return;
             }
@@ -184,9 +185,8 @@ public class Dijkstra {
                         v1.getCircle().setFill(Color.GREEN);
                         v1.setColor(Color.GREEN);
                     }
-                        Circle rem = Ac.get(v1.getName()).getCircle();
-                        p.getChildren().remove(rem);
-                        p.getChildren().remove(Ac.get(v1.getName()).getTextT());
+                    p.getChildren().remove(Ac.get(v1.getName()).getCircle());
+                    p.getChildren().remove(Ac.get(v1.getName()).getDijkstra());
                     secondo = true;
                     terzo = false;
                 }

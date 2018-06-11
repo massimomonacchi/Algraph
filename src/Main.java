@@ -19,6 +19,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import java.awt.*;
+import java.text.Collator;
 import java.util.*;
 
 
@@ -33,7 +34,6 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage){
-
         final Group root = new Group();
         border.setStyle("-fx-background-color:#d0e4e7;");
         Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();

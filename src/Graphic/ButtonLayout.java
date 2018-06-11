@@ -620,22 +620,6 @@ public class ButtonLayout {
                     "\n" +
                     " Il pulsante \"Help\" apre questa finestra");
             secondLabel.setFont(Font.font("Arial", FontWeight.NORMAL, 15));
-            /*Pane secondaryLayout = new Pane();
-            secondaryLayout.getChildren().add(secondLabel);
-
-            Scene secondScene = new Scene(secondaryLayout, 800 , 600);
-
-            // New window (Stage)
-            Stage newWindow = new Stage();
-            newWindow.getIcons().add(new Image("Images/Help.png"));
-            newWindow.setTitle("Help");
-            newWindow.setScene(secondScene);
-
-            // Set position of second window, related to primary window.
-            newWindow.setX(primaryStage.getX() + 200);
-            newWindow.setY(primaryStage.getY() + 100);
-
-            newWindow.show();*/
             JFrame window2 = new JFrame("Help");
             final JTextArea textArea = new JTextArea(10, 100);
             JScrollPane scroll = new JScrollPane(textArea,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
