@@ -184,7 +184,9 @@ public class Dijkstra {
                         v1.getCircle().setFill(Color.GREEN);
                         v1.setColor(Color.GREEN);
                     }
-                    p.getChildren().removeAll(Ac.get(v1.getName()).getCircle(), Ac.get(v1.getName()).getTextT());
+                        Circle rem = Ac.get(v1.getName()).getCircle();
+                        p.getChildren().remove(rem);
+                        p.getChildren().remove(Ac.get(v1.getName()).getTextT());
                     secondo = true;
                     terzo = false;
                 }
@@ -198,12 +200,9 @@ public class Dijkstra {
 
 
         end.setOnAction(event -> {
-
             for (Vertex v: Ac.values()){
                 p.getChildren().remove(v.getCircle());
             }
-
-
             for (Vertex v: G.getAdjList().keySet()){
                 if (v.getName().compareTo(firstV) != 0) {
                     v.setValForDijkstra(Double.POSITIVE_INFINITY);
@@ -240,6 +239,7 @@ public class Dijkstra {
                 }
             }
             for (Vertex v : G.getAdjList().keySet()){
+                v.getDijkstra().setFill(Color.WHITE);
                 if(v.getValForDijkstra() == Double.POSITIVE_INFINITY){
                     v.setColor(Color.RED);
                     v.getCircle().setFill(v.getColor());
