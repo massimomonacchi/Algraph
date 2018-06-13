@@ -8,7 +8,6 @@ import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
 import javafx.scene.*;
 import javafx.scene.control.Button;
-import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 
@@ -17,7 +16,7 @@ import java.util.*;
 
 public class Dijkstra {
 
-    boolean primo = true; boolean secondo = false; boolean terzo = false; boolean quarto = false;
+    boolean primo = true; boolean secondo = false; boolean terzo = false; boolean Quarto = false;
     int x = 0;
     Vertex v1 = null;
 
@@ -28,39 +27,41 @@ public class Dijkstra {
     LinkedList<Edge> E = new LinkedList<>();
     Label lbl2 = new Label("Priority\nQueue");
     Rectangle rt2 = new Rectangle(80,dim);
-
+    PriorityQueue Q;
+    javafx.scene.control.TextArea txtArea;
 
     public  Rectangle getRectangle(){ return rt2; }
 
     public Label getLabel(){ return lbl2; }
 
-    public void dijkstra(Group p, Graph G, String firstV, LinkedList<Line> listLine, Map<String, Vertex> Ac, Button step, Button end) {
+
+
+    public void dijkstra(Group p, Graph G, String firstV, LinkedList<Line> listLine, Map<String, Vertex> Ac, Button step, Button end, javafx.scene.control.TextArea txt) {
         double Width = screenSize.width / 5 * 3;
         p.getChildren().addAll(step, end);
-
-        DataStructure.PriorityQueue q = new DataStructure.PriorityQueue();
+        Q = new PriorityQueue();
+        txtArea = txt;
 
 
         for(int i = 0; i < G.getAdjList().size()+2; i ++){
-
             if(i == 0){
-                rt2.setLayoutX((Width+Width/3) - 40);
+                rt2.setLayoutX((Width+Width/3) - 100);
                 rt2.setLayoutY(y);
                 rt2.setFill(Color.RED);
+                lbl2.setLayoutX((Width+Width/3) - 80);
                 lbl2.setLayoutY(y + 2);
-                lbl2.setLayoutX((Width+Width/3) - 20);
                 p.getChildren().addAll(rt2, lbl2);
             }
 
             if(i == G.getAdjList().size() + 1){
-                Line l6 = new Line((Width+Width/3) - 40, ((screenSize.getHeight() /8 ) /2), (Width+Width/3) - 40, y);
-                Line l7 = new Line((Width+Width/3) + 40, ((screenSize.getHeight() /8 ) /2), (Width+Width/3) + 40, y);
+                Line l6 = new Line((Width+Width/3) - 100, ((screenSize.getHeight() /8 ) /2), (Width+Width/3) - 100, y);
+                Line l7 = new Line((Width+Width/3) - 20, ((screenSize.getHeight() /8 ) /2), (Width+Width/3)  - 20, y);
 
                 listLine.add(l6);
                 listLine.add(l7);
                 p.getChildren().addAll(l6,l7);
             }
-            Line l = new Line((Width+Width/3) -40 , y, (Width+Width/3) +40, y);
+            Line l = new Line((Width+Width/3) - 100 , y, (Width+Width/3) - 20, y);
             listLine.add(l);
             p.getChildren().add(l);
             y = y + dim;
@@ -79,15 +80,17 @@ public class Dijkstra {
         y = ((screenSize.getHeight() /8 ) /2);
 
         step.setOnAction(event -> {
-
             if (primo) {
-                q.getPriorityQueue().add(G.getFromSet(firstV));
+                Q.getPriorityQueue().add(G.getFromSet(firstV));
                 Ac.put(firstV, new Vertex(firstV));
-                Ac.get(firstV).setCircle(Width + Width / 3, y + dim + dim / 2, 15);
+                Ac.get(firstV).setCircle((Width + Width / 3) - 60, y + dim + dim / 2, 15);
                 Ac.get(firstV).getCircle().setFill(Color.BLACK);
                 Ac.get(firstV).setTextT(Ac.get(firstV).getCircle().getCenterX() - 4, Ac.get(firstV).getCircle().getCenterY());
                 Ac.get(firstV).getTextT().setFill(Color.WHITE);
                 p.getChildren().addAll(Ac.get(firstV).getCircle(), Ac.get(firstV).getTextT());
+
+                txtArea.setText("- Inserimento primo nodo: "+ firstV);
+                txtArea.appendText("");
                 primo = false;
                 secondo = true;
                 y += dim + (dim / 2);
@@ -96,12 +99,14 @@ public class Dijkstra {
 
 
             if (secondo) {
-                if (!q.getPriorityQueue().isEmpty()) {
-                    v1 = null;
-                    v1 = q.deleteMin();
+                if (!Q.getPriorityQueue().isEmpty()) {
+                    v1 = Q.deleteMin();
                     v1.getDijkstra().setFill(Color.WHITE);
                     v1.setColor(Color.ORANGE);
                     v1.getCircle().setFill(Color.ORANGE);
+
+                    txtArea.setText(txtArea.getText()+"\n - Lavoro sul nodo: " + v1.getName());
+                    txtArea.appendText("");
                     Ac.get(v1.getName()).getCircle().setFill(Color.ORANGE);
                     E.clear();
                     x = 0;
@@ -122,6 +127,8 @@ public class Dijkstra {
                             v.getCircle().setFill(v.getColor());
                         }
                     }
+                    txtArea.setText(txtArea.getText()+"\n - Fine Dijkstra");
+                    txtArea.appendText("");
                     p.getChildren().removeAll(step, end);
                 }
                 return;
@@ -133,17 +140,19 @@ public class Dijkstra {
                     Edge e = E.get(x);
                     x++;
                     if (e.getV().getValForDijkstra() == Double.POSITIVE_INFINITY) {
-                        q.getPriorityQueue().add(e.getV());
+                        Q.getPriorityQueue().add(e.getV());
                         y += dim;
                         Ac.put(e.getV().getName(), new Vertex(e.getV().getName()));
-                        Ac.get(e.getV().getName()).setCircle(Width + Width / 3, y, 15);
+                        Ac.get(e.getV().getName()).setCircle((Width + Width / 3) - 60, y, 15);
                         Ac.get(e.getV().getName()).getCircle().setFill(Color.BLACK);
                         Ac.get(e.getV().getName()).setTextT(Ac.get(e.getV().getName()).getCircle().getCenterX() - 4, Ac.get(e.getV().getName()).getCircle().getCenterY());
                         Ac.get(e.getV().getName()).getTextT().setFill(Color.WHITE);
+                        txtArea.setText(txtArea.getText()+"\n - Aggiunta in coda di priorità nodo: " + e.getV().getName());
+                        txtArea.appendText("");
                         p.getChildren().addAll(Ac.get(e.getV().getName()).getCircle(), Ac.get(e.getV().getName()).getTextT());
                     }
                     terzo = false;
-                    quarto = true;
+                    Quarto = true;
                 } else {
                     secondo = true;
                     terzo = false;
@@ -152,13 +161,17 @@ public class Dijkstra {
                         v1.getCircle().setFill(Color.GREEN);
                         v1.setColor(Color.GREEN);
                     }
+
+                    txtArea.setText(txtArea.getText()+"\n - Archi esauriti\n - Lavoro nodo "+ v1.getName() +" completato" );
+                    txtArea.appendText("");
+
                     p.getChildren().remove(Ac.get(v1.getName()).getCircle());
                     p.getChildren().remove(Ac.get(v1.getName()).getDijkstra());
                 }
                 return;
             }
 
-            if (quarto) {
+            if (Quarto) {
                 Edge e = E.get(x - 1);
                 if ((e.getU().getValForDijkstra() + e.getPeso()) < e.getV().getValForDijkstra()) {
                     e.getV().setValForDijkstra(e.getU().getValForDijkstra() + e.getPeso());
@@ -177,7 +190,12 @@ public class Dijkstra {
                             e.getV().getDijkstra().setX(e.getV().getCircle().getCenterX() - 12.8);
                             break;
                     }
+                    txtArea.setText(txtArea.getText()+"\n - Peso settato\n     Nodo: "+ e.getV().getName()+"\n     Peso: "+(int)e.getV().getValForDijkstra() );
+                    txtArea.appendText("");
                     G.getFromSet(e.getV().getName()).getDijkstra().setFill(Color.RED);
+                }else {
+                    txtArea.setText(txtArea.getText()+"\n - Peso di "+ e.getV().getName() +" non settato ("+(e.getU().getValForDijkstra() + e.getPeso())+" > " +e.getV().getValForDijkstra()+")" );
+                    txtArea.appendText("");
                 }
 
                 if (x == E.size()) {
@@ -185,6 +203,9 @@ public class Dijkstra {
                         v1.getCircle().setFill(Color.GREEN);
                         v1.setColor(Color.GREEN);
                     }
+
+                    txtArea.setText(txtArea.getText()+"\n - Archi esauriti\n - Lavoro nodo "+ v1.getName() +" completato" );
+                    txtArea.appendText("");
                     p.getChildren().remove(Ac.get(v1.getName()).getCircle());
                     p.getChildren().remove(Ac.get(v1.getName()).getDijkstra());
                     secondo = true;
@@ -193,13 +214,14 @@ public class Dijkstra {
                 else{
                     terzo = true;
                 }
-                quarto = false;
+                Quarto = false;
                 return;
             }
         });
 
 
         end.setOnAction(event -> {
+            txtArea.setText("");
             for (Vertex v: Ac.values()){
                 p.getChildren().remove(v.getCircle());
             }
@@ -209,14 +231,22 @@ public class Dijkstra {
                 }
             }
 
-            PriorityQueue Q = new PriorityQueue();
+             Q = new PriorityQueue();
             Q.getPriorityQueue().add(G.getFromSet(firstV));
+
+            txtArea.setText("- Inserimento primo nodo: "+ firstV);
+            txtArea.appendText("");
 
             while (!Q.getPriorityQueue().isEmpty()) {
                 Vertex v1 = Q.deleteMin();
+
+                txtArea.setText(txtArea.getText()+"\n - Lavoro sul nodo: " + v1.getName());
+                txtArea.appendText("");
                 for (Edge e : G.getAdjList().get(v1)) {
                     if (e.getV().getValForDijkstra() == Double.POSITIVE_INFINITY) {
                         Q.getPriorityQueue().add(e.getV());
+                        txtArea.setText(txtArea.getText()+"\n - Aggiunta in coda di priorità nodo: " + e.getV().getName());
+                        txtArea.appendText("");
                     }
                     if ((e.getU().getValForDijkstra() + e.getPeso()) < e.getV().getValForDijkstra()) {
                         e.getV().setValForDijkstra(e.getU().getValForDijkstra() + e.getPeso());
@@ -235,8 +265,16 @@ public class Dijkstra {
                                 e.getV().getDijkstra().setX(e.getV().getCircle().getCenterX() - 12.8);
                                 break;
                         }
+                        txtArea.setText(txtArea.getText()+"\n - Peso settato\n     Nodo: "+ e.getV().getName()+"\n     Peso: "+(int)e.getV().getValForDijkstra() );
+                        txtArea.appendText("");
+                    }else {
+                        txtArea.setText(txtArea.getText()+"\n - Peso di "+ e.getV().getName() +" non settato ("+(e.getU().getValForDijkstra() + e.getPeso())+" > " +e.getV().getValForDijkstra()+")" );
+                        txtArea.appendText("");
                     }
+
                 }
+                txtArea.setText(txtArea.getText()+"\n - Archi esauriti\n - Lavoro nodo "+ v1.getName() +" completato" );
+                txtArea.appendText("");
             }
             for (Vertex v : G.getAdjList().keySet()){
                 v.getDijkstra().setFill(Color.WHITE);
@@ -249,6 +287,9 @@ public class Dijkstra {
                     v.getCircle().setFill(v.getColor());
                 }
             }
+
+            txtArea.setText(txtArea.getText()+"\n - Fine Dijkstra");
+            txtArea.appendText("");
             p.getChildren().removeAll(step, end);
         });
     }

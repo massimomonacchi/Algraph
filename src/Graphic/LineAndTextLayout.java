@@ -1,9 +1,12 @@
 package Graphic;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.Group;
 import javafx.scene.control.Alert;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.image.Image;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
@@ -20,6 +23,7 @@ public class LineAndTextLayout {
     private Label EdgeText;
     private CheckBox chbox;
     private Alert al;
+    private javafx.scene.control.TextArea txtArea;
 
     public  LineAndTextLayout(Group r, double d, double w){
         root = r;
@@ -29,6 +33,7 @@ public class LineAndTextLayout {
         CreateLine();
         setChbox();
         setAlert();
+        setViewBox();
     }
 
     public Label getEdgeText(){
@@ -61,7 +66,7 @@ public class LineAndTextLayout {
         rectangle.setHeight(Height * 5 / 3 );
         rectangle.setX(Width);
         rectangle.setY(0);
-        rectangle.setFill(Color.valueOf("#e3ffe3"));
+        rectangle.setFill(Color.valueOf("#fdfdfd"));
         root.getChildren().add(rectangle);
 
         Line l0 = new Line(1,1, 1, 50);
@@ -106,5 +111,22 @@ public class LineAndTextLayout {
 
     public CheckBox getChbox(){
         return chbox;
+    }
+
+    public void setViewBox(){txtArea = new javafx.scene.control.TextArea();
+        javafx.scene.control.ScrollPane scrollPane = new javafx.scene.control.ScrollPane();
+        scrollPane.setContent(txtArea);
+        scrollPane.setFitToWidth(true);
+        txtArea.setLayoutX(Width + Width /7);
+        txtArea.setLayoutY(Height);
+        txtArea.textProperty().addListener((ChangeListener<Object>) (observable, oldValue, newValue) -> txtArea.setScrollTop(Double.MAX_VALUE));
+        txtArea.setPrefSize((Width / 4) + 35 , Height / 3 );
+        System.out.print(Height);
+        root.getChildren().add(txtArea);
+        txtArea.setEditable(false);
+    }
+
+    public javafx.scene.control.TextArea getViewBox(){
+        return txtArea;
     }
 }

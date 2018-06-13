@@ -291,7 +291,7 @@ public class ButtonLayout {
                 Dijkstra.setDisable(true);
 
                 algo = new Dijkstra();
-                algo.dijkstra(root, G, firstV.get(),listLine, Ac, step, end);
+                algo.dijkstra(root, G, firstV.get(),listLine, Ac, step, end,layout.getViewBox());
             }
             else{
                 if (firstV.isPresent()) {
@@ -355,6 +355,7 @@ public class ButtonLayout {
 
             Ac.clear();
             listLine.clear();
+            layout.getViewBox().setText(null);
 
             Dijkstra.setDisable(false);
             Delete.setDisable(false);
@@ -627,11 +628,13 @@ public class ButtonLayout {
             textArea.setLineWrap(true);
             textArea.setWrapStyleWord(true);
             textArea.setEditable(false);
+
             window2.add(scroll);
             window2.setSize(1100, 500);
             window2.setVisible(true);
             window2.setLocationRelativeTo(null);
             window2.toFront();
+            window2.setResizable(false);
         });
 
     }

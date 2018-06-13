@@ -548,8 +548,6 @@ public class EventMouse {
     }
 
     private void setKeyCombination(){
-
-
         stepKey = event -> { if(event.getCode() == KeyCode.ENTER){ b.getButtonStep().fire(); } };
         scene.getAccelerators().put(new KeyCodeCombination(KeyCode.E, KeyCombination.CONTROL_DOWN), () -> b.getButtonEnd().fire());
         scene.getAccelerators().put(new KeyCodeCombination(KeyCode.S, KeyCombination.CONTROL_DOWN), () -> b.getButtonSave().fire());
